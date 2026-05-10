@@ -1,61 +1,58 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react'  // Only need useState
 import ProductList from './components/ProductList'
 import DarkModeToggle from './components/DarkModeToggle'
 import Cart from './components/Cart'
 
 const App = () => {
-  // TODO: Implement state for dark mode toggle
-  const [darkMode, setDarkMode]= useState(false)
+  // State 1: Dark mode (starts false = light mode)
+  const [darkMode, setDarkMode] = useState(false)
+  
+  // State 2: Cart items (starts empty array)
+  const [cartItems, setCartItems] = useState([])
+  
+  // State 3: Selected category filter (starts with 'all')
+  const [selectedCategory, setSelectedCategory] = useState('all')
 
-  // TODO: Implement state for cart management
-  const [cartItems, setCartItems]= useState([])
-
-  // TODO: Implement state for category filtering
-  const [selectedCategory,setSelectedCategory]= useState('all')
-
-  const products =[
-    {id: 1,name: "Apple", price: '$1.00', category: "Fruits",instock: true},
-    {id: 2,name: "Milk", price: '$2.50', category: "Dairy",instock:false},
-    
-
+  // Sample product data
+  const products = [
+    { id: 1, name: 'Apple', price: '$1.00', category: 'Fruits', inStock: true },
+    { id: 2, name: 'Milk', price: '$2.50', category: 'Dairy', inStock: false },
   ]
 
-  const filteredProducts = selectedCategory ==="all"
-  selectedCategory ==="all"
-  ? products
-  :products.filter(product =>product.category ===selectedCategory)
-const addToCart =(product) =>{
-  setCartItems(prev => [...cartItems,product])
-};
+  // Filter products based on selected category
+  const filteredProducts = selectedCategory === 'all' 
+    ? products  // Show all products
+    : products.filter(product => product.category === selectedCategory)  // Show only matching category
+
+  // Function to add a product to cart
+  const addToCart = (product) => {
+    setCartItems([...cartItems, product])  // Create new array with existing items + new product
+  }
 
   return (
-    <div className={darkMode ? 'dark-mode' :""}>
-      <h1>🛒 Shopping App</h1>
-      <p>
-        Welcome! Your task is to implement filtering, cart management, and dark
-        mode.
-      </p>
+    // Add 'dark-mode' class when darkMode is true
+    <div className={darkMode ? 'dark-mode' : ''}>
+      <h1>Shopping App</h1>
+      
+      {/* Pass darkMode and setDarkMode as props */}
+      <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      {/* TODO: Render DarkModeToggle and implement dark mode functionality */}
-      <DarkModeToggle
-      darkMode={darkMode}
-      setDarkMode={setDarkMode}/>
-
-      {/* TODO: Implement category filter dropdown */}
-      <label>Filter by Category: </label>
-      <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-
+      {/* Category filter dropdown */}
+      <label>Filter by Category:</label>
+      <select 
+        value={selectedCategory} 
+        onChange={(e) => setSelectedCategory(e.target.value)}  // e.target.value gets selected option
+      >
         <option value="all">All</option>
         <option value="Fruits">Fruits</option>
         <option value="Dairy">Dairy</option>
       </select>
 
-      <ProductList 
-      produucts={filteredProducts}
-      onAddToCart={addToCart}/>
-
-      {/* TODO: Implement and render Cart component */}
-    <Cart cartItems={cartItems} /> 
+      {/* Pass filtered products and addToCart function */}
+      <ProductList products={filteredProducts} onAddToCart={addToCart} />
+      
+      {/* Pass cart items to Cart component */}
+      <Cart cart={cartItems} />
     </div>
   )
 }
