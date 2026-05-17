@@ -36,13 +36,19 @@ test('displays message when no products match filter', () => {
 test('adds items to cart', () => {
   render(<App />)
 
-  const appleBtn = screen.getByTestId('product-' + sampleProducts.find(i => i.name === 'Apple').id)
+  const appleId = sampleProducts.some(i => i.name === 'Apple')
+    ? sampleProducts.find(i => i.name === 'Apple').id
+    : null
+  const appleBtn = screen.getByTestId('product-' + appleId)
   fireEvent.click(appleBtn)
 
   expect(screen.getByText(/shopping cart/i)).toBeInTheDocument()
   expect(screen.getByText(/Apple is in your cart/i)).toBeInTheDocument()
 
-  const milkBtn = screen.getByTestId('product-' + sampleProducts.find(i => i.name === 'Milk').id)
+  const milkId = sampleProducts.some(i => i.name === 'Milk')
+    ? sampleProducts.find(i => i.name === 'Milk').id
+    : null
+  const milkBtn = screen.getByTestId('product-' + milkId)
   fireEvent.click(milkBtn)
 
   expect(screen.getByText(/shopping cart/i)).toBeInTheDocument()

@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 
-const Cart = ({cart}) => {
+const Cart = ({ cart = [] }) => {
   return (
     <div>
       <h2>Shopping Cart</h2>
@@ -16,7 +16,12 @@ const Cart = ({cart}) => {
   )
 }
 Cart.propTypes = {
-  cart: propTypes.array.isRequired,
+  cart: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.number.isRequired,
+      name: propTypes.string.isRequired,
+    }).isRequired,
+  ),
 }
 
 export default Cart

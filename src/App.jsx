@@ -49,7 +49,12 @@ const App = () => {
       </select>
 
       {/* Pass filtered products and addToCart function */}
-      <ProductList products={filteredProducts} onAddToCart={addToCart} />
+      {filteredProducts.length === 0 && (
+        <p>No products available</p>
+      )}
+      {filteredProducts.length > 0 && (
+        <ProductList products={filteredProducts} onAddToCart={addToCart} />
+      )}
       
       {/* Pass cart items to Cart component */}
       <Cart cart={cartItems} />
